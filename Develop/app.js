@@ -1,139 +1,155 @@
 //jshint esversion:6
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-const path = require("path");
 const fs = require("fs");
-const questions = require("./lib/questions");
-let html = "";
 
-const OUTPUT_DIR = path.resolve(__dirname, "output")
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
-const render = require("./lib/htmlRenderer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
+const Engineer = require("./lib/Engineer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-function createEmployee() {
-    inquirer
-        .prompt(questions.empQuestions)
-        .then(answers => {
-            switch (answers.role) {
-                case "Manager":
-                    inquirer.prompt(questions.mgmtQuestion).then(async managerAnswers => {
-                        const managerData = await new Manager(
-                            answers.name,
-                            answers.id,
-                            answers.email,
-                            managerAnswers.officeNumber
-                        );
-                        readMgnFile(managerData);
+// start
+async function start() {
+    console.log("Let's make an engineering team!");
 
-                        restartInquirer();
-                    });
-                    break;
+    // variables
+    let teamHTML = "";
+    let teamSize;
 
-                case "Engineer":
-                    inquirer.prompt(questions.engQuestion).then(engineerAnswers => {
-                        const engineerData = new Engineer(
-                            answers.name,
-                            answers.id,
-                            answers.email,
-                            engineerAnswers.github
-                        );
-                        readEngFile(engineerData);
+    // Begining of question loop
+    await inquirer.prompt(
+        {
+            type: "number",
+            message: "How many people are on the team?",
+            name: "numTeamMem"
+        }
+    )
+        .then((data) => {
 
-                        restartInquirer();
-                    });
-                    break;
+            teamSize = data.numTeamMem + 1;
+        });
 
-                case "Intern":
-                    inquirer
-                        .prompt(questions.internQuestion)
-                        .then(async internAnswers => {
-                            const internData = await new Intern(
-                                answers.name,
-                                answers.id,
-                                answers.email,
-                                internAnswers.internSchool
-                            );
-                            readInternFile(internData);
+    // Team can not be 0
+    if (teamSize === 0) {
+        console.log("Start again. You must have someone on the team.");
+        return;
+    }
 
-                            restartInquirer();
-                        });
-                    break;
+    // Question loop
+    for (i = 1; i < teamSize; i++) {
+
+        // Global variables set
+        let name;
+        let id;
+        let title;
+        let email;
+
+        // Prompts employee questions 
+        await inquirer.prompt([
+            {
+                type: "input",
+                message: `What is employee (${i})'s name?`,
+                name: "name"
+            },
+            {
+                type: "input",
+                message: `What is the employee (${i})'s id?`,
+                name: "id"
+            },
+            {
+                type: "input",
+                message: `What is the employee (${i})'s Email?`,
+                name: "email"
+            },
+            {
+                type: "list",
+                message: `what the employee (${i})'s title?`,
+                name: "title",
+                choices: ["Engineer", "Intern", "Manager"]
             }
-        })
-        .catch(err => {
-            throw err;
-        });
-}
+        ])
+            .then((data) => {
 
 
-function readEngFile(engineerData) {
-    // console.log(engineerData);
+                name = data.name;
+                id = data.id;
+                title = data.title;
+                email = data.email;
+            });
 
-    const icon = `<img src="./Develop/Images/programmer.png" alt="cartoon programmer"/>`;
-    fs.readFile("./html/engineer.html", "utf8", function (error, data) {
-        // console.log(engineerData.name);
-        const newData = data
-            .replace("Ename:", engineerData.name)
-            .replace("Eicon:", icon)
-            .replace("Eid", engineerData.id)
-            .replace("Eemail", engineerData.email)
-            .replace("Egighub", engineerData.github);
+        // Switch case depending on title 
+        switch (title) {
+            case "Manager":
 
-        // read .html, combine them and write file.
-        html += newData;
+                await inquirer.prompt([
+                    {
+                        type: "input",
+                        message: "What is your Office Number?",
+                        name: "officeNo"
+                    }
+                ])
+                    .then((data) => {
+
+
+                        const manager = new Manager(name, id, email, data.officeNo);
+
+                        teamMember = fs.readFileSync("templates/manager.html");
+                        teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`');
+                    });
+                break;
+
+            //Intern specific question
+            case "Intern":
+                await inquirer.prompt([
+                    {
+                        type: "input",
+                        message: "What school is your Intern attending?",
+                        name: "school"
+                    }
+                ])
+                    .then((data) => {
+                        const intern = new Intern(name, id, email, data.school);
+                        teamMember = fs.readFileSync("templates/intern.html");
+                        teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`');
+                    });
+                break;
+
+            //Engineer specific question
+            case "Engineer":
+                await inquirer.prompt([
+                    {
+                        type: "input",
+                        message: "What is your Engineer's GitHub?",
+                        name: "github"
+                    }
+                ])
+                    .then((data) => {
+                        const engineer = new Engineer(name, id, email, data.github);
+                        teamMember = fs.readFileSync("templates/engineer.html");
+                        teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`');
+                    });
+                break;
+
+        }
+
+    }
+
+    // Reads main.html 
+    const mainHTML = fs.readFileSync("templates/main.html");
+
+    teamHTML = eval('`' + mainHTML + '`');
+
+    //  new team.html file
+    fs.writeFile("output/team.html", teamHTML, function (err) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("Success!");
 
     });
+
 }
 
-function readMgnFile(managerData) {
 
-    const icon = `<img src="./Develop/Images/organization-2.png.png"
-    alt="cartoon flowchart" />`;
-    fs.readFile("./html/manager.html", "utf8", function (error, data) {
-        const newData = data
-            .replace("Mname:", managerData.name)
-            .replace("Micon:", icon)
-            .replace("Mid", managerData.id)
-            .replace("Memail", managerData.email)
-            .replace("Mphone", managerData.officeNumber);
-
-        html += newData;
-    });
-}
-function readInternFile(internData) {
-
-    const icon = `<img src="./Develop/Images/student.png"
-    alt="cartoon student and computer" />`;
-    fs.readFile("./html/intern.html", "utf8", function (error, data) {
-        const newData = data
-            .replace("Iname:", internData.name)
-            .replace("Iicon:", icon)
-            .replace("Iid", internData.id)
-            .replace("Iemail", internData.email)
-            .replace("Ischool", internData.internSchool);
-
-
-        html += newData;
-    });
-}
-
-function createHTML() {
-    fs.readFile("./html/main.html", "utf8", (err, data) => {
-        const newData = data.replace("{{html}}", html);
-
-        fs.writeFile("./output/index.html", newData, "utf8", err => {
-            if (err) return console.log(err);
-        });
-        console.log(".html created");
-    });
-}
-
-module.exports = {};
-
-createEmployee();
+start();
