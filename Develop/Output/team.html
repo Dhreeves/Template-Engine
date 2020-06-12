@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/c502137733.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <link type="text/css" rel="stylesheet" href="../templates/style.css">
     <script src="../app.js" crossorigin="anonymous" defer></script>
 </head>
 
@@ -26,7 +26,67 @@
     <div class="container">
         <div class="row">
             <div class="team-area col-12 d-flex justify-content-center">
-                {{html}}
+                
+<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">Diane R</h2>
+        <h4 class="card-title"><img src="../Images/organization-2.png"
+                alt="cartoon flowchart" /></i>Manager</h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: 10101</li>
+            <li class="list-group-item">Email: <a href="mailto:Diane@gmail.com">Diane@gmail.com</a></li>
+            <li class="list-group-item">Office Number: 1000</li>
+        </ul>
+    </div>
+</div>
+<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">Ryan M</h2>
+        <h4 class="card-title"><img src="../Images/student.png"
+                alt="cartoon student and computer" /></i>Intern</h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: 20202</li>
+            <li class="list-group-item">Email: <a href="mailto:Ryan@gmail.com">Ryan@gmail.com</a></li>
+            <li class="list-group-item">School: SMU</li>
+        </ul>
+    </div>
+</div>
+<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">Ed</h2>
+        <h4 class="card-title"><img src="../Images/programmer.png" class="progrm"
+                alt="cartoon programmer" />Engineer
+        </h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: 30303</li>
+            <li class="list-group-item">Email: <a href="mailto:Ed@gmail.com">Ed@gmail.com</a></li>
+            <li class="list-group-item">GitHub: <a href="https://github.com/{{ github }}" target="_blank"
+                    rel="noopener noreferrer">Gohub</a></li>
+        </ul>
+    </div>
+</div>
+<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">Roland</h2>
+        <h4 class="card-title"><img src="../Images/programmer.png" class="progrm"
+                alt="cartoon programmer" />Engineer
+        </h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: 40404</li>
+            <li class="list-group-item">Email: <a href="mailto:Roland@gmail.com">Roland@gmail.com</a></li>
+            <li class="list-group-item">GitHub: <a href="https://github.com/{{ github }}" target="_blank"
+                    rel="noopener noreferrer">BestHub</a></li>
+        </ul>
+    </div>
+</div>
             </div>
         </div>
     </div>

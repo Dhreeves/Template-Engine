@@ -1,14 +1,14 @@
 <div class="card employee-card">
     <div class="card-header">
-        <h2 class="card-title">{{ name }}</h2>
-        <h3 class="card-title"><img src="./Develop/Images/organization-2.png.png"
-                alt="cartoon flowchart" /></i>{{ role }}</h3>
+        <h2 class="card-title">${manager.name}</h2>
+        <h4 class="card-title"><img src="../Images/organization-2.png"
+                alt="cartoon flowchart" /></i>${manager.getRole()}</h4>
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item">ID: {{ id }}</li>
-            <li class="list-group-item">Email: <a href="mailto:{{ email }}">{{ email }}</a></li>
-            <li class="list-group-item">Office number: {{ officeNumber }}</li>
+            <li class="list-group-item">ID: ${manager.id}</li>
+            <li class="list-group-item">Email: <a href="mailto:${ email }">${manager.email}</a></li>
+            <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
         </ul>
     </div>
 </div>

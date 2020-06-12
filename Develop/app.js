@@ -1,7 +1,6 @@
 //jshint esversion:6
 const inquirer = require("inquirer");
 const fs = require("fs");
-
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const Engineer = require("./lib/Engineer");
@@ -24,7 +23,6 @@ async function start() {
         }
     )
         .then((data) => {
-
             teamSize = data.numTeamMem + 1;
         });
 
@@ -69,7 +67,6 @@ async function start() {
         ])
             .then((data) => {
 
-
                 name = data.name;
                 id = data.id;
                 title = data.title;
@@ -88,8 +85,6 @@ async function start() {
                     }
                 ])
                     .then((data) => {
-
-
                         const manager = new Manager(name, id, email, data.officeNo);
 
                         teamMember = fs.readFileSync("templates/manager.html");
@@ -102,12 +97,13 @@ async function start() {
                 await inquirer.prompt([
                     {
                         type: "input",
-                        message: "What school is your Intern attending?",
+                        message: "What school does your Intern attend?",
                         name: "school"
                     }
                 ])
                     .then((data) => {
                         const intern = new Intern(name, id, email, data.school);
+
                         teamMember = fs.readFileSync("templates/intern.html");
                         teamHTML = teamHTML + "\n" + eval('`' + teamMember + '`');
                     });
@@ -144,7 +140,6 @@ async function start() {
         if (err) {
             return console.log(err);
         }
-
         console.log("Success!");
 
     });
