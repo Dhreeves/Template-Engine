@@ -39,5 +39,5 @@ student.png\
 
 ## Author
 Diane Reeves
-```
-![](output/Final-html-output.png)
+
+<img width="1396" alt="Final-html-output" src="https://user-images.githubusercontent.com/34249881/88242052-b2a81a80-cc51-11ea-8e02-759811399f60.png">
