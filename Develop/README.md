@@ -40,3 +40,4 @@ student.png\
 ## Author
 Diane Reeves
 ```
+![](output/Final-html-output.png)
