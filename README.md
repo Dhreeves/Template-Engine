@@ -39,4 +39,7 @@ student.png\
 
 ## Author
 Diane Reeves
+
+<img width="1245" alt="Screen Shot 2020-07-27 at 12 41 11 PM" src="https://user-images.githubusercontent.com/34249881/88573717-c44d4180-d006-11ea-94e2-794fa756a18d.png">
+
 ```
